@@ -1,0 +1,24 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-env --allow-sys --allow-write --allow-read --watch main.ts",
+    "build": "deno compile --allow-read --allow-write --allow-sys --allow-env --output gml-lsp main.ts",
+    "build:linux": "deno compile --allow-read --allow-write --allow-sys --allow-env --target x86_64-unknown-linux-gnu --output bin/gml-lsp-linux-x64 main.ts",
+    "build:linux-aarch": "deno compile --allow-read --allow-write --allow-sys --allow-env --target aarch64-unknown-linux-gnu --output bin/gml-lsp-linux-aarch64 main.ts",
+    "build:mac": "deno compile --allow-read --allow-write --allow-sys --allow-env --target aarch64-apple-darwin --output bin/gml-lsp-mac-arm main.ts",
+    "build:mac-x86": "deno compile --allow-read --allow-write --allow-sys --allow-env --target x86_64-apple-darwin --output bin/gml-lsp-mac-x86 main.ts",
+    "build:windows": "deno compile --allow-read --allow-write --allow-sys --allow-env --target x86_64-pc-windows-msvc --output bin/gml-lsp.exe main.ts",
+    "lint": "deno run -A npm:@biomejs/biome lint --write . && deno run -A npm:@biomejs/biome format --write ."
+  },
+  "imports": {
+    "@biomejs/biome": "npm:@biomejs/biome@^2.4.2",
+    "@bscotch/gml-parser": "npm:@bscotch/gml-parser@^1.17.2",
+    "@bscotch/pathy": "npm:@bscotch/pathy@^2.12.1",
+    "@deno/dnt": "jsr:@deno/dnt@^0.42.3",
+    "@std/assert": "jsr:@std/assert@^1.0.18",
+    "@std/testing": "jsr:@std/testing@^1.0.17",
+    "winston": "npm:winston@^3.19.0"
+  },
+  "compilerOptions": {
+    "strict": true
+  }
+}
