@@ -1,4 +1,4 @@
-# Seams
+# Seams 🪡
 
 A GameMaker Studio language server made in Typescript that uses [Butterscotch Shenanigan's gml-parser](https://github.com/bscotch/stitch/tree/develop/packages/parser) for keeping state of your current **GML** project.
 
