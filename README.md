@@ -9,8 +9,6 @@ A GameMaker Studio language server made in Typescript that uses [Butterscotch Sh
 
 |   | Method |
 |---|--------|
-| ✅ | initialize |
-| ✅ | initialized |
 | ✅ | textDocument/didOpen |
 | ✅ | textDocument/didChange |
 | ✅ | textDocument/didSave |
@@ -22,7 +20,6 @@ A GameMaker Studio language server made in Typescript that uses [Butterscotch Sh
 | ✅ | textDocument/inlayHint |
 | ✅ | textDocument/semanticTokens/full |
 | ✅ | textDocument/documentHighlight |
-| ✅ | exit |
 | 🚧 | textDocument/codeAction |
 
 ## Installation
@@ -47,6 +44,8 @@ vim.lsp.config("gml", {
 ```
 
 ## Contributing
+
+If you find any bugs or issues, you are more than welcome to open a pull request or leave an issue ticket and I'll check it out!
 
 ## Setup
 
