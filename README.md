@@ -110,7 +110,6 @@ return {
    ---@module "nutt.plugins.code.nvim-lspconfig"
    ---@type table<string, LspServerConfig>
    servers = {
-    vtsls = { enabled = false },
     gml = {
      cmd = { path .. "/gml-lsp" },
      filetypes = { "gml" },
