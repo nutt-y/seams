@@ -1,13 +1,13 @@
+import type { Code } from "@bscotch/gml-parser";
 import type winston from "winston";
+import type GMLProject from "../../parser/project.ts";
+import type { ElementQueue } from "../element_queue.ts";
 import type {
   DocumentUri,
   Handler,
   LSPMessage,
   LSPRequestMessage,
 } from "./message.types.ts";
-import type GMLProject from "../../parser/project.ts";
-import type { ElementQueue } from "../element_queue.ts";
-import type { Code } from "@bscotch/gml-parser";
 
 /**
  * Create an abstract handler this attributes that all handlers share.

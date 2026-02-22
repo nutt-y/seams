@@ -1,0 +1,61 @@
+name: Release
+
+run-name: Release New Version
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v5
+
+      - name: Setup Deno Project
+        uses: denoland/setup-deno@v2
+
+      - name: Build Linux x86
+        run: deno run build:linux
+
+      - name: Build Linux aarch
+        run: deno run build:linux-aarch
+
+      - name: Build Mac Arm
+        run: deno run build:mac
+
+      - name: Build Mac x86
+        run: deno run build:mac-x86
+
+      - name: Build Windows
+        run: deno run build:windows
+
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v6
+        with:
+          name: binaries
+          path: |
+            bin/*
+          retention-days: 1
+
+  release:
+    name: Release pushed tag
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Binaries
+        uses: actions/download-artifact@v7
+        with:
+          name: binaries
+          path: ./binaries
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./binaries/*

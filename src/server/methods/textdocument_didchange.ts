@@ -38,7 +38,7 @@ export class TextDocument_DidChange extends AbstractHandler {
   /**
    * Handle a change in a specific file by reloading the file and references
    */
-  public override handle(): void {
+  public override async handle(): Promise<void> {
     const { params } = this.message;
     const { textDocument, contentChanges } = params as Params;
     const { uri, version } = textDocument;
@@ -50,7 +50,7 @@ export class TextDocument_DidChange extends AbstractHandler {
         const { text } = contentChanges[0];
 
         // Update the contents of the file in memory
-        file.reload(text);
+        await file.reload(text);
 
         // Find diagnostics
         const diagnostics = new TextDocument_PublishDiagnostics(

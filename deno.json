@@ -7,7 +7,7 @@
     "build:mac": "deno compile --allow-read --allow-write --allow-sys --allow-env --target aarch64-apple-darwin --output bin/gml-lsp-mac-arm main.ts",
     "build:mac-x86": "deno compile --allow-read --allow-write --allow-sys --allow-env --target x86_64-apple-darwin --output bin/gml-lsp-mac-x86 main.ts",
     "build:windows": "deno compile --allow-read --allow-write --allow-sys --allow-env --target x86_64-pc-windows-msvc --output bin/gml-lsp.exe main.ts",
-    "lint": "deno run -A npm:@biomejs/biome lint --write . && deno run -A npm:@biomejs/biome format --write ."
+    "lint": "deno run -A npm:@biomejs/biome check --write ."
   },
   "imports": {
     "@biomejs/biome": "npm:@biomejs/biome@^2.4.2",
