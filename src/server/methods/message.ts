@@ -1,27 +1,27 @@
 import type winston from "winston";
+import type GMLProject from "../../parser/project.ts";
+import type { ElementQueue } from "../element_queue.ts";
+import type { AbstractHandler } from "./abstract.ts";
+import { Exit } from "./exit.ts";
+import { Initialize } from "./initialize.ts";
+import { Initialized } from "./initialized.ts";
 import type {
   Handler,
   LSPMessage,
   LSPRequestMessage,
 } from "./message.types.ts";
-import { Initialize } from "./initialize.ts";
-import type { AbstractHandler } from "./abstract.ts";
-import { Exit } from "./exit.ts";
-import { Initialized } from "./initialized.ts";
-import type GMLProject from "../../parser/project.ts";
-import { TextDocument_DidOpen } from "./textdocument_didopen.ts";
 import { Nothing } from "./nothing.ts";
-import { TextDocument_Hover } from "./textdocument_hover.ts";
-import { TextDocument_DidChange } from "./textdocument_didchange.ts";
-import { TextDocument_Definition } from "./textdocument_definition.ts";
-import type { ElementQueue } from "../element_queue.ts";
-import { TextDocument_DidSave } from "./textdocument_didsave.ts";
 import { TextDocument_Completion } from "./textdocument_completion.ts";
-import { TextDocument_SignatureHelp } from "./textdocument_signaturehelp.ts";
-import { TextDocument_References } from "./textdocument_references.ts";
-import { TextDocument_InlayHint } from "./textdocument_inlayHint.ts";
-import { TextDocument_SemanticTokens_Full } from "./textdocument_semanticTokens_full.ts";
+import { TextDocument_Definition } from "./textdocument_definition.ts";
+import { TextDocument_DidChange } from "./textdocument_didchange.ts";
+import { TextDocument_DidOpen } from "./textdocument_didopen.ts";
+import { TextDocument_DidSave } from "./textdocument_didsave.ts";
 import { TextDocument_DocumentHighlight } from "./textdocument_documenthighlight.ts";
+import { TextDocument_Hover } from "./textdocument_hover.ts";
+import { TextDocument_InlayHint } from "./textdocument_inlayHint.ts";
+import { TextDocument_References } from "./textdocument_references.ts";
+import { TextDocument_SemanticTokens_Full } from "./textdocument_semanticTokens_full.ts";
+import { TextDocument_SignatureHelp } from "./textdocument_signaturehelp.ts";
 
 /**
  * The methods supported by gml lsp

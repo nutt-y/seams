@@ -1,4 +1,5 @@
 import type { Reference } from "@bscotch/gml-parser";
+import { RPC_VER } from "../constants.ts";
 import { AbstractHandler } from "./abstract.ts";
 import type {
   InlayHint,
@@ -9,7 +10,6 @@ import type {
   TextDocumentIdentifier,
   WorkDoneProgressParams,
 } from "./message.types.ts";
-import { RPC_VER } from "../constants.ts";
 
 type Params = LSPRequestMessage["params"] &
   WorkDoneProgressParams & {

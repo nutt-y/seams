@@ -1,4 +1,5 @@
 import type { Project } from "@bscotch/gml-parser";
+import { RPC_VER } from "../constants.ts";
 import { AbstractHandler } from "./abstract.ts";
 import type {
   LSPResponseMessage,
@@ -8,7 +9,6 @@ import type {
   uinteger,
   WorkDoneProgressParams,
 } from "./message.types.ts";
-import { RPC_VER } from "../constants.ts";
 
 type Params = TextDocumentPositionParams &
   WorkDoneProgressParams & {

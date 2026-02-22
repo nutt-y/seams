@@ -1,4 +1,5 @@
 import type { Reference } from "@bscotch/gml-parser";
+import { RPC_VER } from "../constants.ts";
 import { AbstractHandler } from "./abstract.ts";
 import type {
   Location,
@@ -8,7 +9,6 @@ import type {
   TextDocumentPositionParams,
   WorkDoneProgressParams,
 } from "./message.types.ts";
-import { RPC_VER } from "../constants.ts";
 
 /**
  * Request params

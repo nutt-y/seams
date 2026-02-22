@@ -1,4 +1,6 @@
+import type { Code } from "@bscotch/gml-parser";
 import type winston from "winston";
+import { RPC_VER } from "../constants.ts";
 import type { ElementQueue } from "../element_queue.ts";
 import {
   type Diagnostic,
@@ -8,8 +10,6 @@ import {
   type LSPMessage,
   type LSPNotificationMessage,
 } from "./message.types.ts";
-import type { Code } from "@bscotch/gml-parser";
-import { RPC_VER } from "../constants.ts";
 
 /**
  * Parameters for sending over diagnostics
