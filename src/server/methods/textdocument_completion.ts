@@ -105,7 +105,9 @@ export class TextDocument_Completion extends AbstractHandler {
       // Check if this is the object member part
       const isDot = scope.isDotAccessor;
       if (isDot) {
-        const symbolsInScope = scope.self.listMembers();
+        const symbolsInScope = scope.self
+          .listMembers()
+          .filter((symbol) => symbol.def || symbol.native); // Make sure that we get actual members defined and not garbage values
 
         symbols.push(...symbolsInScope);
       }

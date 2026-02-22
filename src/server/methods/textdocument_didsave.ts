@@ -28,7 +28,7 @@ export class TextDocument_DidSave extends AbstractHandler {
   /**
    * Update the text document
    */
-  public override handle(): Promise<void> | void {
+  public override async handle(): Promise<void> {
     const { params } = this.message;
     const { textDocument, text } = params as Params;
     const { uri } = textDocument;
@@ -37,7 +37,7 @@ export class TextDocument_DidSave extends AbstractHandler {
 
     if (file) {
       // Update the contents in memory
-      file.reload(text);
+      await file.reload(text);
 
       // Find Diagnostics
       const diagnostics = new TextDocument_PublishDiagnostics(
