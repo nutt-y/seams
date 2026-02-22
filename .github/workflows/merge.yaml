@@ -1,0 +1,33 @@
+name: Merge Check
+
+run-name: Checking Merge Request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.ts"
+      - "**/*.json"
+
+jobs:
+  merge-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v5
+
+      - name: Setup Deno Project
+        uses: denoland/setup-deno@v2
+
+      - name: Setup Biome CI
+        uses: biomejs/setup-biome@v2
+
+      - name: Run Biome
+        run: biome ci
+
+      - name: Type Check
+        run: deno check
+
+      - name: Tests
+        run: deno test
