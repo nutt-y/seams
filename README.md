@@ -7,6 +7,24 @@ A GameMaker Studio language server made in Typescript that uses [Butterscotch Sh
 
 ## Supported LSP methods
 
+|   | Method |
+|---|--------|
+| ✅ | initialize |
+| ✅ | initialized |
+| ✅ | textDocument/didOpen |
+| ✅ | textDocument/didChange |
+| ✅ | textDocument/didSave |
+| ✅ | textDocument/completion |
+| ✅ | textDocument/definition |
+| ✅ | textDocument/references |
+| ✅ | textDocument/hover |
+| ✅ | textDocument/signatureHelp |
+| ✅ | textDocument/inlayHint |
+| ✅ | textDocument/semanticTokens/full |
+| ✅ | textDocument/documentHighlight |
+| ✅ | exit |
+| 🚧 | textDocument/codeAction |
+
 ## Installation
 
 You can download the binary for your current system under **Releases**. This server uses standard **i/o** to communicate with a client. Below is an example on how to set up this LSP for a certain text editor.
