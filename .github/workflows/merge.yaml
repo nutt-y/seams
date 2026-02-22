@@ -16,8 +16,6 @@ jobs:
 
       - name: Setup Deno Project
         uses: denoland/setup-deno@v2
-        with:
-          cache: true
 
       - name: Setup Biome CI
         uses: biomejs/setup-biome@v2
