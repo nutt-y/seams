@@ -113,7 +113,7 @@ return {
     gml = {
      cmd = { path .. "/gml-lsp" },
      filetypes = { "gml" },
-     root_markers = { "a.yyp", ".git" }, -- Set the root marker to wherever you want to test the lsp in
+     root_markers = { "a.yyp", ".git" }, -- Set the root marker to wherever you want to test the LSP in
     },
     biome = {
      cmd = { "deno", "run", "-A", "npm:@biomejs/biome", "lsp-proxy" },
