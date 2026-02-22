@@ -2,11 +2,14 @@
 
 A GameMaker Studio language server made in Typescript that uses [Butterscotch Shenanigan's gml-parser](https://github.com/bscotch/stitch/tree/develop/packages/parser) for keeping state of your current **GML** project.
 
+> [!NOTE]
+> This project is still a work in progress, certain functionality might break!
+
 ## Supported LSP methods
 
 ## Installation
 
-You can download the binary for your current system under **Releases**. This server uses standard **i/o** to communicate with a client. Below is an example on how to setup this LSP for a certain text editor.
+You can download the binary for your current system under **Releases**. This server uses standard **i/o** to communicate with a client. Below is an example on how to set up this LSP for a certain text editor.
 
 **Neovim**
 
@@ -21,11 +24,9 @@ vim.filetype.add({
 vim.lsp.config("gml", {
     cmd = {"./gml-lsp"},
     filetypes = {"gml"}
+    root_markers = {"project.yyp"} -- This should be the specific to your project
 })
 ```
-
-- Sublime
-- VSCode
 
 ## Contributing
 
@@ -126,4 +127,4 @@ return {
 
 ## Acknowledgment
 
-Thank you so much to [Butterscotch Shenanigans](https://github.com/bscotch) for doing all the heavy lifting in their [Stitch Gml-Parser](https://github.com/bscotch/stitch/tree/develop/packages/parser) package. Without that package, this LSP would not have been possible to implement!
+Thank you so much to [Butterscotch Shenanigans](https://github.com/bscotch) for doing all the heavy lifting in their [Stitch gml-parser](https://github.com/bscotch/stitch/tree/develop/packages/parser) package. Without that package, this LSP would not have been possible to implement!
