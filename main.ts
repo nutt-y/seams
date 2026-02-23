@@ -1,3 +1,4 @@
+import { parseArgs } from "@std/cli/parse-args";
 import GMLProject from "./src/parser/project.ts";
 import { ElementQueue } from "./src/server/element_queue.ts";
 import { getLogger } from "./src/server/log.ts";
@@ -5,11 +6,32 @@ import { handleMessage } from "./src/server/methods/message.ts";
 import type { LSPMessage } from "./src/server/methods/message.types.ts";
 import { decodeMessage, encodeMessage } from "./src/server/rpc.ts";
 import { nextMessage, sendReply } from "./src/server/scanner.ts";
+import { CLIFlags, runProgram } from "./src/cli/flags.ts";
 
 /**
  * Main process
  */
 const main = async () => {
+  // Get flags
+  const flags = parseArgs(Deno.args, {
+    boolean: [CLIFlags.HELP, CLIFlags.STDIO],
+    string: [CLIFlags.DEBUG],
+    // boolean: ["debug", "help"],
+    // stopEarly: true,
+    // // string: ["help"],
+    // default: {
+    //   debug: false,
+    //   help: false,
+    // },
+  });
+
+  // Start the program based on the attributes given
+  const program = runProgram(
+    flags as unknown as Parameters<typeof runProgram>[0],
+  );
+
+  program.run();
+
   // Start logger
   const logFile = `${Deno.cwd()}/debug.log`;
   const logger = getLogger(logFile);
