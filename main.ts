@@ -1,4 +1,5 @@
 import { parseArgs } from "@std/cli/parse-args";
+import { CLIFlags, runProgram } from "./src/cli/flags.ts";
 import GMLProject from "./src/parser/project.ts";
 import { ElementQueue } from "./src/server/element_queue.ts";
 import { getLogger } from "./src/server/log.ts";
@@ -6,7 +7,6 @@ import { handleMessage } from "./src/server/methods/message.ts";
 import type { LSPMessage } from "./src/server/methods/message.types.ts";
 import { decodeMessage, encodeMessage } from "./src/server/rpc.ts";
 import { nextMessage, sendReply } from "./src/server/scanner.ts";
-import { CLIFlags, runProgram } from "./src/cli/flags.ts";
 
 /**
  * Main process

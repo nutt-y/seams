@@ -1,12 +1,11 @@
 import type winston from "winston";
-import { getLogger } from "../server/log.ts";
 import GMLProject from "../parser/project.ts";
 import { ElementQueue } from "../server/element_queue.ts";
-import { LSPMessage } from "../server/methods/message.types.ts";
+import { getLogger } from "../server/log.ts";
+import { handleMessage } from "../server/methods/message.ts";
+import type { LSPMessage } from "../server/methods/message.types.ts";
 import { decodeMessage, encodeMessage } from "../server/rpc.ts";
 import { nextMessage, sendReply } from "../server/scanner.ts";
-import { logger } from "../../../../.cache/deno/npm/registry.npmjs.org/@bscotch/gml-parser/1.17.2/dist/logger.js";
-import { handleMessage } from "../server/methods/message.ts";
 
 /**
  * @class The entry point to the program, based on the flags and conditions listed
@@ -25,7 +24,7 @@ export class HelpProgram extends Program {
   /**
    * Print out the help menu
    */
-  override run(): void {
+  override run(): Promise<void> | void {
     throw new Error("Method not implemented.");
   }
 }
@@ -37,7 +36,7 @@ export class LspProgram extends Program {
   /**
    * Whether the lsp should start in debug mode or not
    */
-  private logger: winston.Logger | null = null;
+  private logger: winston.Logger = this.getDefaultLogFile();
 
   /**
    * Get the logger file contents
@@ -52,13 +51,15 @@ export class LspProgram extends Program {
    * @param file The file that will be used for logging
    */
   public set log(file: string) {
-    this.logger = getLogger(file);
+    if (file.length > 0) {
+      this.logger = getLogger(file);
+    }
   }
 
   /**
    * Run the lsp program
    */
-  override async run(): Promise<void> {
+  public override async run(): Promise<void> {
     // Constants
     const project: GMLProject = new GMLProject(this.logger); // Reference the wrapper for the gml parser
     const responses: ElementQueue<LSPMessage> = new ElementQueue<LSPMessage>(); // All responses for the client are added to an event listener queue
@@ -98,5 +99,18 @@ export class LspProgram extends Program {
         responses: responses,
       });
     }
+  }
+
+  /**
+   * Get all the log debugging information and place it in a default
+   * temp file
+   * @returns `winston` Logger object to use
+   */
+  private getDefaultLogFile(): winston.Logger {
+    // Get the directory
+    const dir = Deno.makeTempDirSync({ prefix: "gml-lsp" });
+    const logger = getLogger(`${dir}/debug.log`);
+
+    return logger;
   }
 }
