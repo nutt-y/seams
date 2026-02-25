@@ -1,9 +1,9 @@
 import { assertEquals } from "@std/assert";
 import type winston from "winston";
-import type GMLProject from "../../parser/project.ts";
-import type { ElementQueue } from "../element_queue.ts";
+import type GMLProject from "../parser/project.ts";
 import { AbstractHandler } from "./abstract.ts";
-import type { LSPRequestMessage } from "./message.types.ts";
+import type { ElementQueue } from "./element_queue.ts";
+import type { LSPRequestMessage } from "./methods/message.types.ts";
 
 class TestHandler extends AbstractHandler {
   public override handle(): void {}

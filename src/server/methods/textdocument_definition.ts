@@ -1,6 +1,5 @@
 import type { Asset, Signifier, Type } from "@bscotch/gml-parser";
 import { RPC_VER } from "../constants.ts";
-import { AbstractHandler } from "./abstract.ts";
 import type {
   Location,
   LocationLink,
@@ -10,6 +9,7 @@ import type {
   TextDocumentPositionParams,
   WorkDoneProgressParams,
 } from "./message.types.ts";
+import { AbstractHandler } from "../abstract.ts";
 
 /**
  * Type parameters

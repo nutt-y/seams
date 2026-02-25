@@ -1,4 +1,4 @@
-import { AbstractHandler } from "./abstract.ts";
+import { AbstractHandler } from "../abstract.ts";
 
 /**
  * Do nothing since this means that this method is not implemented
