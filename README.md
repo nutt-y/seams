@@ -1,4 +1,4 @@
-# Seams
+# Seams 🪡
 
 A GameMaker Studio language server made in Typescript that uses [Butterscotch Shenanigan's gml-parser](https://github.com/bscotch/stitch/tree/develop/packages/parser) for keeping state of your current **GML** project.
 
@@ -37,7 +37,7 @@ vim.filetype.add({
 })
 
 vim.lsp.config("gml", {
-    cmd = {"./gml-lsp"},
+    cmd = {"./seams"},
     filetypes = {"gml"}
     root_markers = {"project.yyp"} -- This should be the specific to your project
 })
@@ -111,7 +111,7 @@ return {
    ---@type table<string, LspServerConfig>
    servers = {
     gml = {
-     cmd = { path .. "/gml-lsp" },
+     cmd = { path .. "/seams" },
      filetypes = { "gml" },
      root_markers = { "a.yyp", ".git" }, -- Set the root marker to wherever you want to test the LSP in
     },

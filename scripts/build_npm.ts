@@ -15,17 +15,17 @@ await build({
   },
   package: {
     // package.json properties
-    name: "gml-lsp",
+    name: "seams",
     version: Deno.args[0],
     description: "GameMaker Studio Language Server",
     author: "Marcos Cevallos",
     license: "MIT",
     repository: {
       type: "git",
-      url: "git+https://github.com/LinkUpGames/gml-lsp.git",
+      url: "git+https://github.com/nutt-y/seams.git",
     },
     bugs: {
-      url: "https://github.com/LinkUpGames/gml-lsp/issues",
+      url: "https://github.com/nutt-y/seams/issues",
     },
   },
 });
