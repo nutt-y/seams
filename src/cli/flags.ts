@@ -21,7 +21,9 @@ export const runProgram = (flags: Record<CLIFlags, unknown>) => {
   Object.entries(flags).forEach(([key, value]) => {
     switch (key) {
       case CLIFlags.HELP:
-        program = new HelpProgram();
+        if (value as boolean) {
+          program = new HelpProgram();
+        }
         return;
 
       case CLIFlags.DEBUG:

@@ -14,7 +14,7 @@ export abstract class Program {
   /**
    * Run's the program
    */
-  abstract run(): void;
+  abstract run(): Promise<void> | void;
 }
 
 /**
@@ -24,8 +24,37 @@ export class HelpProgram extends Program {
   /**
    * Print out the help menu
    */
-  override run(): Promise<void> | void {
-    throw new Error("Method not implemented.");
+  override run(): void {
+    const content = [
+      `
+000000000000000000000000000000
+000000000000000000000000000000
+00000000000000  00000000000000
+0000000000000     000000000000
+00000000000        00000000000
+000000000            000000000
+0000000      0000      0000000
+00000      00000000      00000
+00000      0000     0000000000
+0000000      00     0000000000
+000000000           0000000000
+00000000000         0000000000
+000000000000      000000000000
+00000000000000  00000000000000
+000000000000000000000000000000
+000000000000000000000000000000
+`,
+      "Seams: A GameMaker Studio Language Language Server",
+      "Commands:",
+      "--help This Help Message",
+      "--stdio Start LSP through stdio channel",
+      "",
+      "Flags:",
+      "--debug=FILE Output any LSP information to FILE",
+    ].join("\n");
+
+    // Print to stdout
+    console.log(content);
   }
 }
 
@@ -99,16 +128,18 @@ export class LspProgram extends Program {
         responses: responses,
       });
     }
+
+    this.logger.info("Program Exited");
   }
 
   /**
-   * Get all the log debugging information and place it in a default
-   * temp file
+   * Log all content to a debug file in a temporary folder so that
+   * it's out of sight from the user
    * @returns `winston` Logger object to use
    */
   private getDefaultLogFile(): winston.Logger {
     // Get the directory
-    const dir = Deno.makeTempDirSync({ prefix: "gml-lsp" });
+    const dir = Deno.makeTempDirSync({ prefix: "seams" });
     const logger = getLogger(`${dir}/debug.log`);
 
     return logger;
