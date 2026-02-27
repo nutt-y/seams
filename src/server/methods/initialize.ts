@@ -1,18 +1,13 @@
 import { AbstractHandler } from "../abstract.ts";
 import { RPC_VER } from "../constants.ts";
+import { WindowWorkDoneProgress } from "../notifications/window_work_done_progress.ts";
 import {
   type ClientCapabilities,
   type integer,
-  type LSPNotificationMessage,
-  type LSPObject,
   type LSPRequestMessage,
   type LSPResponseMessage,
-  type ProgressParams,
-  type ProgressToken,
   type ServerCapabilities,
   TextDocumentSyncKind,
-  type WorkDoneProgressBegin,
-  type WorkDoneProgressEnd,
   type WorkspaceFolder,
 } from "./message.types.ts";
 import { TextDocument_SemanticTokens_Full } from "./textdocument_semanticTokens_full.ts";
@@ -55,7 +50,7 @@ type InitializeParams = LSPRequestMessage["params"] & {
 /**
  * The response for the initial request
  */
-type InitializeResponse = LSPResponseMessage & {
+type InitializeResponse = {
   /**
    * The capabilities of the gml lsp
    */
@@ -77,15 +72,10 @@ type InitializeResponse = LSPResponseMessage & {
   };
 };
 
-type ProgressStartParams = ProgressParams<WorkDoneProgressBegin>;
-type ProgressEndParams = ProgressParams<WorkDoneProgressEnd>;
-
 /**
  * The initialize handler
  */
 export class Initialize extends AbstractHandler {
-  private readonly token: ProgressToken = "initialize"; // The token to use for sending the notification that the project is initializing
-
   /**
    * Return server capabilities for the gml lsp
    * @param params The capabilities of the client
@@ -93,31 +83,17 @@ export class Initialize extends AbstractHandler {
   public override async handle(): Promise<void> {
     const { id, params } = this.message;
 
+    // Keep track of initializing the gml project
+    const progress = new WindowWorkDoneProgress(
+      this.project,
+      this.logger,
+      this.responses,
+      "initialize",
+    );
+
     // Build the initialize response
     const initialResponse = this.getInitialResponse(id);
-    this.responses.enqueueElement([
-      initialResponse,
-      {
-        id: id,
-        jsonrpc: RPC_VER,
-        method: "window/workDoneProgress/create",
-        params: {
-          token: this.token,
-        },
-      } as LSPRequestMessage,
-      {
-        jsonrpc: RPC_VER,
-        method: "$/progress",
-        params: {
-          token: this.token,
-          value: {
-            cancellable: false,
-            kind: "begin",
-            title: "Starting Project",
-          },
-        } satisfies ProgressStartParams,
-      } as LSPNotificationMessage,
-    ]);
+    this.responses.enqueueElement([initialResponse]);
 
     // Cast to the parameters for an initialize class
     const { workspaceFolders } = params as InitializeParams;
@@ -127,24 +103,14 @@ export class Initialize extends AbstractHandler {
       const { uri } = workspaceFolders[0];
       const path = this.getDocumentPath(uri);
 
+      // Begin Progress for initializing the project
+      progress.begin("Indexing GML Project");
+
       const initialized = await this.project.initializeProject(path);
       if (!initialized) {
         // TODO: Return an error
       } else {
-        // Return the progress done notification
-        this.responses.enqueueElement([
-          {
-            jsonrpc: RPC_VER,
-            method: "$/progress",
-            params: {
-              token: this.token,
-              value: {
-                kind: "end",
-                message: "Project started",
-              },
-            } satisfies ProgressEndParams,
-          } as LSPNotificationMessage,
-        ]);
+        progress.end("GML Project Processed");
       }
     } else {
       // TODO: Return an error
@@ -209,15 +175,17 @@ export class Initialize extends AbstractHandler {
    * @param id  The id of the request
    * @returns An initialize response
    */
-  private getInitialResponse(id: string | number): InitializeResponse {
+  private getInitialResponse(id: string | number): LSPResponseMessage {
     const capabilities = this.getServerCapabilities();
     const info = this.getServerInformation();
 
     return {
       id: id,
       jsonrpc: RPC_VER,
-      capabilities: capabilities,
-      serverInfo: info,
-    };
+      result: {
+        capabilities: capabilities,
+        serverInfo: info,
+      },
+    } as unknown as LSPResponseMessage;
   }
 }

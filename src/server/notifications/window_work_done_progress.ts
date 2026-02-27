@@ -4,6 +4,7 @@ import { NotificationHandler } from "../abstract.ts";
 import { RPC_VER } from "../constants.ts";
 import type { ElementQueue } from "../element_queue.ts";
 import type {
+  LSPMessage,
   LSPNotificationMessage,
   LSPRequestMessage,
   ProgressParams,
@@ -40,7 +41,7 @@ export class WindowWorkDoneProgress extends NotificationHandler {
   constructor(
     project: GMLProject,
     logger: winston.Logger,
-    response: ElementQueue<LSPNotificationMessage | LSPRequestMessage>,
+    response: ElementQueue<LSPMessage>,
     token?: ProgressToken,
   ) {
     super(project, logger, response);
