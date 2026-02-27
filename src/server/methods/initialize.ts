@@ -55,7 +55,7 @@ type InitializeParams = LSPRequestMessage["params"] & {
 /**
  * The response for the initial request
  */
-type InitializeResponse = LSPObject & {
+type InitializeResponse = LSPResponseMessage & {
   /**
    * The capabilities of the gml lsp
    */
@@ -94,47 +94,9 @@ export class Initialize extends AbstractHandler {
     const { id, params } = this.message;
 
     // Build the initialize response
+    const initialResponse = this.getInitialResponse(id);
     this.responses.enqueueElement([
-      {
-        id: id,
-        jsonrpc: RPC_VER,
-        result: {
-          capabilities: {
-            textDocumentSync: {
-              openClose: true,
-              change: TextDocumentSyncKind.Full,
-              save: {
-                includeText: true,
-              },
-            },
-            completionProvider: {
-              triggerCharacters: ["."],
-              resolveProvider: false,
-            },
-            signatureHelpProvider: {
-              triggerCharacters: ["(", ","],
-            },
-            hoverProvider: true,
-            definitionProvider: true,
-            referencesProvider: {
-              workDoneProgress: true,
-            },
-            inlayHintProvider: {
-              resolveProvider: false,
-              workDoneProgress: false,
-            },
-            semanticTokensProvider: {
-              legend: TextDocument_SemanticTokens_Full.GetLegend(),
-              full: true,
-            },
-            documentHighlightProvider: true,
-          },
-          serverInfo: {
-            name: "GameMaker Studio Language LSP",
-            version: "0.1",
-          },
-        } as InitializeResponse,
-      } as LSPResponseMessage,
+      initialResponse,
       {
         id: id,
         jsonrpc: RPC_VER,
@@ -188,5 +150,74 @@ export class Initialize extends AbstractHandler {
       // TODO: Return an error
       Deno.exit(1);
     }
+  }
+
+  /**
+   * Get the server capabilities
+   * @return The server capabilities
+   */
+  private getServerCapabilities(): ServerCapabilities {
+    const capabilities: ServerCapabilities = {
+      textDocumentSync: {
+        openClose: true,
+        change: TextDocumentSyncKind.Full,
+        save: {
+          includeText: true,
+        },
+      },
+      completionProvider: {
+        triggerCharacters: ["."],
+        resolveProvider: false,
+      },
+      signatureHelpProvider: {
+        triggerCharacters: ["(", ","],
+      },
+      hoverProvider: true,
+      definitionProvider: true,
+      referencesProvider: {
+        workDoneProgress: true,
+      },
+      inlayHintProvider: {
+        resolveProvider: false,
+        workDoneProgress: false,
+      },
+      semanticTokensProvider: {
+        legend: TextDocument_SemanticTokens_Full.GetLegend(),
+        full: true,
+      },
+      documentHighlightProvider: true,
+    };
+
+    return capabilities;
+  }
+
+  /**
+   * Get basic server information
+   * @returns The server information to return
+   */
+  private getServerInformation(): InitializeResponse["serverInfo"] {
+    const information = {
+      name: "GameMaker Studio Language LSP",
+      version: "0.1",
+    };
+
+    return information;
+  }
+
+  /**
+   * Get an initial response with the server capabilities and information
+   * @param id  The id of the request
+   * @returns An initialize response
+   */
+  private getInitialResponse(id: string | number): InitializeResponse {
+    const capabilities = this.getServerCapabilities();
+    const info = this.getServerInformation();
+
+    return {
+      id: id,
+      jsonrpc: RPC_VER,
+      capabilities: capabilities,
+      serverInfo: info,
+    };
   }
 }
