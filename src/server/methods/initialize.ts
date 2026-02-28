@@ -107,12 +107,28 @@ export class Initialize extends AbstractHandler {
 
       const initialized = await this.project.initializeProject(path);
       if (!initialized) {
-        // TODO: Return an error
+        const error = this.generateError(
+          "SERVER_NOT_INITIALIZED",
+          "Could not find project",
+        );
+        const response = this.generateResponseMessage({ error: error });
+
+        this.queueResponseMessage(response);
+
+        Deno.exit(1);
       } else {
         progress.end("GML Project Processed");
       }
     } else {
       // TODO: Return an error
+      const error = this.generateError(
+        "SERVER_NOT_INITIALIZED",
+        "Internal server error",
+      );
+      const response = this.generateResponseMessage({ error: error });
+
+      this.queueResponseMessage(response);
+
       Deno.exit(1);
     }
   }
