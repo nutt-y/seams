@@ -4,14 +4,14 @@ import type GMLProject from "../parser/project.ts";
 import { RPC_VER } from "./constants.ts";
 import type { ElementQueue } from "./element_queue.ts";
 import {
-  DocumentUri,
+  type DocumentUri,
   ErrorCodes,
-  Handler,
-  LSPMessage,
-  LSPNotificationMessage,
-  LSPRequestMessage,
-  LSPResponseMessage,
-  ResponseError,
+  type Handler,
+  type LSPMessage,
+  type LSPNotificationMessage,
+  type LSPRequestMessage,
+  type LSPResponseMessage,
+  type ResponseError,
 } from "./methods/message.types.ts";
 /**
  * Create an abstract handler this attributes that all handlers share.
