@@ -1,5 +1,6 @@
 import type winston from "winston";
 import type GMLProject from "../../parser/project.ts";
+import type { AbstractHandler } from "../abstract.ts";
 import type { ElementQueue } from "../element_queue.ts";
 import { Exit } from "./exit.ts";
 import { Initialize } from "./initialize.ts";
@@ -21,7 +22,6 @@ import { TextDocument_InlayHint } from "./textdocument_inlayHint.ts";
 import { TextDocument_References } from "./textdocument_references.ts";
 import { TextDocument_SemanticTokens_Full } from "./textdocument_semanticTokens_full.ts";
 import { TextDocument_SignatureHelp } from "./textdocument_signaturehelp.ts";
-import { AbstractHandler } from "../abstract.ts";
 
 /**
  * The methods supported by gml lsp
