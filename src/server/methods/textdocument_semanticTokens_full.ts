@@ -126,7 +126,7 @@ export class TextDocument_SemanticTokens_Full extends AbstractHandler {
       }
     }
 
-    const message = this.generateResponseMessage(response);
+    const message = this.generateResponseMessage({ result: response });
     this.queueResponseMessage(message);
   }
 

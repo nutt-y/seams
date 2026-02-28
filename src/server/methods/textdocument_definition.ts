@@ -72,7 +72,7 @@ export class TextDocument_Definition extends AbstractHandler {
       }
     }
 
-    const message = this.generateResponseMessage(location);
+    const message = this.generateResponseMessage({ result: location });
     this.queueResponseMessage(message);
   }
 

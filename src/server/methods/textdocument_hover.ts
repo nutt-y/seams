@@ -85,7 +85,7 @@ export class TextDocument_Hover extends AbstractHandler {
       }
     }
 
-    const message = this.generateResponseMessage(response);
+    const message = this.generateResponseMessage({ result: response });
     this.queueResponseMessage(message);
   }
 

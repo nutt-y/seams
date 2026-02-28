@@ -178,8 +178,10 @@ export class Initialize extends AbstractHandler {
     const info = this.getServerInformation();
 
     const message = this.generateResponseMessage({
-      capabilities: capabilities,
-      serverInfo: info,
+      result: {
+        capabilities: capabilities,
+        serverInfo: info,
+      },
     });
 
     return message;

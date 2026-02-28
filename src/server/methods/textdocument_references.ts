@@ -47,7 +47,7 @@ export class TextDocument_References extends AbstractHandler {
       }
     }
 
-    const message = this.generateResponseMessage(locations);
+    const message = this.generateResponseMessage({ result: locations });
     this.queueResponseMessage(message);
   }
 

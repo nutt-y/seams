@@ -52,7 +52,7 @@ export class TextDocument_DocumentHighlight extends AbstractHandler {
     }
 
     // Enqueue the final part
-    const message = this.generateResponseMessage(response);
+    const message = this.generateResponseMessage({ result: response });
     this.queueResponseMessage(message);
   }
 

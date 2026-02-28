@@ -82,14 +82,21 @@ export abstract class AbstractHandler implements Handler {
 
   /**
    * Generate a response message to send back to the client
-   * @param result The result for the lsp response message
-   * @param error The error for the lsp response message
+   * @param obj Contains the `result` and `error` objects to send back to the client, note that you only have to send one,
    * @returns The response message to send backt to the client
    */
-  protected generateResponseMessage(
-    result: unknown | undefined = undefined,
-    error: LSPResponseMessage["error"] = undefined,
-  ): LSPResponseMessage {
+  protected generateResponseMessage({
+    result = undefined,
+    error = undefined,
+  }:
+    | {
+        result: unknown | undefined;
+        error?: undefined;
+      }
+    | {
+        result?: undefined;
+        error: LSPResponseMessage["error"];
+      }): LSPResponseMessage {
     const message: LSPResponseMessage = {
       id: this.id,
       jsonrpc: RPC_VER,

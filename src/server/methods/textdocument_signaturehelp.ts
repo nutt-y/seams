@@ -87,7 +87,7 @@ export class TextDocument_SignatureHelp extends AbstractHandler {
       }
     }
 
-    const message = this.generateResponseMessage(res);
+    const message = this.generateResponseMessage({ result: res });
     this.queueResponseMessage(message);
   }
 

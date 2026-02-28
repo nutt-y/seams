@@ -60,7 +60,7 @@ export class TextDocument_InlayHint extends AbstractHandler {
       hints = hints.length > 0 ? hints : null;
     }
 
-    const message = this.generateResponseMessage(hints);
+    const message = this.generateResponseMessage({ result: hints });
     this.queueResponseMessage(message);
   }
 
