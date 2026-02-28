@@ -1,9 +1,14 @@
 import type winston from "winston";
 import GMLProject from "../parser/project.ts";
+import { RPC_VER } from "../server/constants.ts";
 import { ElementQueue } from "../server/element_queue.ts";
 import { getLogger } from "../server/log.ts";
 import { handleMessage } from "../server/methods/message.ts";
-import type { LSPMessage } from "../server/methods/message.types.ts";
+import {
+  ErrorCodes,
+  type LSPMessage,
+  type LSPResponseMessage,
+} from "../server/methods/message.types.ts";
 import { decodeMessage, encodeMessage } from "../server/rpc.ts";
 import { nextMessage, sendReply } from "../server/scanner.ts";
 
@@ -120,13 +125,27 @@ export class LspProgram extends Program {
         `Method: ${request.method}\nContent: ${JSON.stringify(request, null, 2)}`,
       );
 
-      await handleMessage({
-        method: request.method,
-        message: request,
-        logger: this.logger,
-        project: project,
-        responses: responses,
-      });
+      // Catch errors and send them to the client
+      try {
+        await handleMessage({
+          method: request.method,
+          message: request,
+          logger: this.logger,
+          project: project,
+          responses: responses,
+        });
+      } catch (error) {
+        const id = request.id ?? null; // notifications don't have an id
+
+        // Log it
+        this.logger.error(`Uncaught error for id: ${id}: ${error}`);
+
+        // Send error and exit
+        await this.generateErrorResponse(id, error);
+
+        // Exit the program
+        Deno.exit(1);
+      }
     }
 
     this.logger.info("Program Exited");
@@ -143,5 +162,28 @@ export class LspProgram extends Program {
     const logger = getLogger(`${dir}/debug.log`);
 
     return logger;
+  }
+
+  /**
+   * Generate an internal server error response
+   * @param id The id of the message response
+   */
+  private async generateErrorResponse(
+    id: string | number,
+    error: unknown,
+  ): Promise<void> {
+    // Build error response
+    const errorResponse: LSPResponseMessage = {
+      jsonrpc: RPC_VER,
+      id: id,
+      error: {
+        code: ErrorCodes.INTERNAL_ERROR,
+        message: error instanceof Error ? error.message : String(error),
+      },
+    };
+
+    const encoded = encodeMessage(errorResponse, this.logger);
+
+    await sendReply(encoded);
   }
 }
