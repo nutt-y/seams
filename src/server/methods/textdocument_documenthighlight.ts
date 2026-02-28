@@ -1,6 +1,6 @@
 import type { Reference, Scope } from "@bscotch/gml-parser";
+import { AbstractHandler } from "../abstract.ts";
 import { RPC_VER } from "../constants.ts";
-import { AbstractHandler } from "./abstract.ts";
 import type {
   DocumentHighlight,
   LSPRequestMessage,

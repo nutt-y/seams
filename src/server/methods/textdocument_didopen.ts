@@ -1,4 +1,4 @@
-import { AbstractHandler } from "./abstract.ts";
+import { AbstractHandler } from "../abstract.ts";
 import type { LSPRequestMessage, TextDocumentItem } from "./message.types.ts";
 import { TextDocument_PublishDiagnostics } from "./textdocument_publishdiagnostics.ts";
 

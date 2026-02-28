@@ -1,7 +1,7 @@
 import type winston from "winston";
 import type GMLProject from "../../parser/project.ts";
+import type { AbstractHandler } from "../abstract.ts";
 import type { ElementQueue } from "../element_queue.ts";
-import type { AbstractHandler } from "./abstract.ts";
 import { Exit } from "./exit.ts";
 import { Initialize } from "./initialize.ts";
 import { Initialized } from "./initialized.ts";

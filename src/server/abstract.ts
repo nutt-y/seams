@@ -1,14 +1,13 @@
 import type { Code } from "@bscotch/gml-parser";
 import type winston from "winston";
-import type GMLProject from "../../parser/project.ts";
-import type { ElementQueue } from "../element_queue.ts";
+import type GMLProject from "../parser/project.ts";
+import type { ElementQueue } from "./element_queue.ts";
 import type {
   DocumentUri,
   Handler,
   LSPMessage,
   LSPRequestMessage,
-} from "./message.types.ts";
-
+} from "./methods/message.types.ts";
 /**
  * Create an abstract handler this attributes that all handlers share.
  */
@@ -72,4 +71,43 @@ export abstract class AbstractHandler implements Handler {
 
     return file;
   }
+}
+
+/**
+ * @class NotificationHandler replies to the user with a notification that
+ * can be sent at any moment
+ */
+export abstract class NotificationHandler implements Handler {
+  // Reference to the universal project
+  protected project: GMLProject;
+
+  // The logger to use
+  protected logger: winston.Logger;
+
+  // The queue for the response to send back to the client
+  protected response: ElementQueue<LSPMessage>;
+
+  // Keep track of all Notification requests based on token sent
+  public static progress: Map<string, NotificationHandler> = new Map();
+
+  /**
+   * Create a notification to send the client any information required
+   * @param project The gml project api
+   * @param response The response queue to use for sending back information
+   * @param logger Logger to use
+   */
+  constructor(
+    project: GMLProject,
+    logger: winston.Logger,
+    response: ElementQueue<LSPMessage>,
+  ) {
+    this.project = project;
+    this.logger = logger;
+    this.response = response;
+  }
+
+  /**
+   * All children must implement this
+   */
+  public abstract handle(): Promise<void> | void;
 }

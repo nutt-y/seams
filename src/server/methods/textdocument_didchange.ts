@@ -1,4 +1,4 @@
-import { AbstractHandler } from "./abstract.ts";
+import { AbstractHandler } from "../abstract.ts";
 import type {
   LSPRequestMessage,
   TextDocumentContentChangeEvent,

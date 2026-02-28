@@ -1,6 +1,6 @@
 import type { Reference, Type } from "@bscotch/gml-parser";
+import { AbstractHandler } from "../abstract.ts";
 import { RPC_VER } from "../constants.ts";
-import { AbstractHandler } from "./abstract.ts";
 import {
   type LSPRequestMessage,
   type LSPResponseMessage,
