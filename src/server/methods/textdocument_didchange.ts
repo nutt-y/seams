@@ -62,6 +62,9 @@ export class TextDocument_DidChange extends AbstractHandler {
 
         // Check diagnostics
         diagnostics.handle();
+
+        // Reload symbols
+        file.updateAllSymbols();
       }
     }
   }
