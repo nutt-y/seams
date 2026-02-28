@@ -1,10 +1,8 @@
 import type { Reference, Scope } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import type {
   DocumentHighlight,
   LSPRequestMessage,
-  LSPResponseMessage,
   PartialResultParams,
   TextDocumentPositionParams,
   WorkDoneProgressParams,
@@ -31,7 +29,7 @@ export class TextDocument_DocumentHighlight extends AbstractHandler {
    * Get all of the occurrences of the variable under the cursor
    */
   public override handle(): Promise<void> | void {
-    const { id, params } = this.message;
+    const { params } = this.message;
     const { textDocument, position } = params as Params;
     const { uri } = textDocument;
 
