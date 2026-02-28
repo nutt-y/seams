@@ -115,12 +115,11 @@ export class Initialize extends AbstractHandler {
 
         this.queueResponseMessage(response);
 
-        Deno.exit(1);
+        setTimeout(() => Deno.exit(1), 500);
       } else {
         progress.end("GML Project Processed");
       }
     } else {
-      // TODO: Return an error
       const error = this.generateError(
         "SERVER_NOT_INITIALIZED",
         "Internal server error",
@@ -129,7 +128,7 @@ export class Initialize extends AbstractHandler {
 
       this.queueResponseMessage(response);
 
-      Deno.exit(1);
+      setTimeout(() => Deno.exit(1), 500);
     }
   }
 
