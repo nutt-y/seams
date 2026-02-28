@@ -10,6 +10,7 @@ import {
   type WorkspaceFolder,
 } from "./message.types.ts";
 import { TextDocument_SemanticTokens_Full } from "./textdocument_semanticTokens_full.ts";
+import { Workspace_ExecuteCommand } from "./workspace_executecommand.ts";
 
 /**
  * Parameters specific for initializing lsp
@@ -166,6 +167,10 @@ export class Initialize extends AbstractHandler {
         full: true,
       },
       documentHighlightProvider: true,
+      codeActionProvider: true,
+      executeCommandProvider: {
+        commands: Workspace_ExecuteCommand.GetWorkspaceCommands(),
+      },
     };
 
     return capabilities;
