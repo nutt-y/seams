@@ -139,7 +139,7 @@ export interface ResponseError {
   /**
    * A number indicating the error type that occurred.
    */
-  code: integer;
+  code: ErrorCodes;
 
   /**
    * A string providing a short description of the error.
@@ -309,14 +309,12 @@ export interface Position {
 /**
  * LSP Error Codes namespace containing all standard error codes.
  */
-// deno-lint-ignore no-namespace
-export namespace ErrorCodes {
-  // Defined by JSON-RPC
-  export const ParseError: integer = -32700;
-  export const InvalidRequest: integer = -32600;
-  export const MethodNotFound: integer = -32601;
-  export const InvalidParams: integer = -32602;
-  export const InternalError: integer = -32603;
+export enum ErrorCodes {
+  PARSE_ERROR = -32700,
+  INVALID_REQUEST = -32600,
+  METHOD_NOT_FOUND = -32601,
+  INVALID_PARAMS = -32602,
+  INTERNAL_ERROR = -32603,
 
   /**
    * This is the start range of JSON-RPC reserved error codes.
@@ -327,16 +325,15 @@ export namespace ErrorCodes {
    *
    * @since 3.16.0
    */
-  export const jsonrpcReservedErrorRangeStart: integer = -32099;
-  /** @deprecated use jsonrpcReservedErrorRangeStart */
-  export const serverErrorStart: integer = jsonrpcReservedErrorRangeStart;
+  JSON_RPC_RESERVED_ERROR_RANGE_START = -32099,
 
   /**
    * Error code indicating that a server received a notification or
    * request before the server received the `initialize` request.
    */
-  export const ServerNotInitialized: integer = -32002;
-  export const UnknownErrorCode: integer = -32001;
+  SERVER_NOT_INITIALIZED = -32002,
+
+  UNKNOWN_ERROR_CODE = -32001,
 
   /**
    * This is the end range of JSON-RPC reserved error codes.
@@ -344,9 +341,7 @@ export namespace ErrorCodes {
    *
    * @since 3.16.0
    */
-  export const jsonrpcReservedErrorRangeEnd = -32000;
-  /** @deprecated use jsonrpcReservedErrorRangeEnd */
-  export const serverErrorEnd: integer = jsonrpcReservedErrorRangeEnd;
+  JSONRPC_RESERVED_ERROR_RANGE_END = -32000,
 
   /**
    * This is the start range of LSP reserved error codes.
@@ -354,7 +349,7 @@ export namespace ErrorCodes {
    *
    * @since 3.16.0
    */
-  export const lspReservedErrorRangeStart: integer = -32899;
+  LSP_RESERVED_ERROR_RANGE_START = -32899,
 
   /**
    * A request failed but it was syntactically correct, e.g the
@@ -364,7 +359,7 @@ export namespace ErrorCodes {
    *
    * @since 3.17.0
    */
-  export const RequestFailed: integer = -32803;
+  REQUEST_FAILED = -32803,
 
   /**
    * The server cancelled the request. This error code should
@@ -373,7 +368,7 @@ export namespace ErrorCodes {
    *
    * @since 3.17.0
    */
-  export const ServerCancelled: integer = -32802;
+  SERVER_CANCELLED = -32802,
 
   /**
    * The server detected that the content of a document got
@@ -385,13 +380,13 @@ export namespace ErrorCodes {
    * If a client decides that a result is not of any use anymore
    * the client should cancel the request.
    */
-  export const ContentModified: integer = -32801;
+  CONTENT_MODIFIED = -32801,
 
   /**
    * The client has canceled a request and a server has detected
    * the cancel.
    */
-  export const RequestCancelled: integer = -32800;
+  REQUEST_CANCELLED = -32800,
 
   /**
    * This is the end range of LSP reserved error codes.
@@ -399,7 +394,7 @@ export namespace ErrorCodes {
    *
    * @since 3.16.0
    */
-  export const lspReservedErrorRangeEnd: integer = -32800;
+  LSP_RESERVED_ERROR_RANGE_END = -32800,
 }
 
 // ===== LSP Progress and Cancellation Types =====
