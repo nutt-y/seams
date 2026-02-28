@@ -1,10 +1,8 @@
 import type { Reference } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import type {
   InlayHint,
   LSPRequestMessage,
-  LSPResponseMessage,
   Position,
   Range,
   TextDocumentIdentifier,
@@ -37,7 +35,7 @@ export class TextDocument_InlayHint extends AbstractHandler {
    * Inlay hints for current document range
    */
   public override handle(): void {
-    const { params, id } = this.message;
+    const { params } = this.message;
     const { textDocument, range } = params as Params;
     const { uri } = textDocument;
     const { start, end } = range;
@@ -62,13 +60,8 @@ export class TextDocument_InlayHint extends AbstractHandler {
       hints = hints.length > 0 ? hints : null;
     }
 
-    this.responses.enqueueElement([
-      {
-        jsonrpc: RPC_VER,
-        id: id,
-        result: hints,
-      } as LSPResponseMessage,
-    ]);
+    const message = this.generateResponseMessage(hints);
+    this.queueResponseMessage(message);
   }
 
   /**

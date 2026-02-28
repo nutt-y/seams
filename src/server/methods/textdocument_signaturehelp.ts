@@ -1,8 +1,6 @@
 import type { Project } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import type {
-  LSPResponseMessage,
   SignatureHelpContext,
   SignatureInformation,
   TextDocumentPositionParams,
@@ -67,7 +65,7 @@ export class TextDocument_SignatureHelp extends AbstractHandler {
    */
   public override handle(): Promise<void> | void {
     // Context
-    const { params, id } = this.message;
+    const { params } = this.message;
     const { textDocument, position } = params as unknown as Params;
     const { uri } = textDocument;
     const { character: column, line } = position;
@@ -89,13 +87,8 @@ export class TextDocument_SignatureHelp extends AbstractHandler {
       }
     }
 
-    this.responses.enqueueElement([
-      {
-        id: id,
-        jsonrpc: RPC_VER,
-        result: res satisfies Response,
-      } as LSPResponseMessage,
-    ]);
+    const message = this.generateResponseMessage(res);
+    this.queueResponseMessage(message);
   }
 
   /**

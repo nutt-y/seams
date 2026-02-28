@@ -1,10 +1,8 @@
 import type { Reference } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import type {
   Location,
   LSPRequestMessage,
-  LSPResponseMessage,
   PartialResultParams,
   TextDocumentPositionParams,
   WorkDoneProgressParams,
@@ -31,7 +29,7 @@ export class TextDocument_References extends AbstractHandler {
    * Handle symbol references and return them
    */
   public override handle(): void {
-    const { params, id } = this.message;
+    const { params } = this.message;
     const { textDocument, position } = params as Params;
     const { uri } = textDocument;
 
@@ -49,13 +47,8 @@ export class TextDocument_References extends AbstractHandler {
       }
     }
 
-    this.responses.enqueueElement([
-      {
-        jsonrpc: RPC_VER,
-        id: id,
-        result: locations,
-      } as LSPResponseMessage,
-    ]);
+    const message = this.generateResponseMessage(locations);
+    this.queueResponseMessage(message);
   }
 
   /**

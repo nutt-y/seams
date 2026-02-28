@@ -1,6 +1,5 @@
 import type { Reference, Type } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import {
   type LSPRequestMessage,
   type LSPResponseMessage,
@@ -104,7 +103,7 @@ export class TextDocument_SemanticTokens_Full extends AbstractHandler {
   );
 
   public override handle(): Promise<void> | void {
-    const { params, id } = this.message;
+    const { params } = this.message;
     const { textDocument } = params as Params;
     const { uri } = textDocument;
 
@@ -127,13 +126,8 @@ export class TextDocument_SemanticTokens_Full extends AbstractHandler {
       }
     }
 
-    this.responses.enqueueElement([
-      {
-        jsonrpc: RPC_VER,
-        id: id,
-        result: response,
-      } as LSPResponseMessage,
-    ]);
+    const message = this.generateResponseMessage(response);
+    this.queueResponseMessage(message);
   }
 
   /**

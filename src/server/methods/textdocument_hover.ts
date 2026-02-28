@@ -1,9 +1,7 @@
 import type { Asset, Signifier } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import type {
   LSPRequestMessage,
-  LSPResponseMessage,
   MarkupContent,
   Position,
   Range,
@@ -28,7 +26,7 @@ type Params = LSPRequestMessage["params"] & {
 /**
  * The result of a hover request
  */
-type Hover = LSPResponseMessage["result"] & {
+type Response = {
   /**
    * The hover's content
    */
@@ -38,19 +36,18 @@ type Hover = LSPResponseMessage["result"] & {
    * An optional range is a range inside a text odcument that is used to visualize to hover
    */
   range?: Range;
-};
+} | null;
 
 export class TextDocument_Hover extends AbstractHandler {
   /**
    * Handle the hover
    */
   public override handle(): void {
-    const { params, id } = this.message;
+    const { params } = this.message;
     const { textDocument, position } = params as Params;
     const { uri } = textDocument;
 
-    // Response messages to send back
-    const responses: LSPResponseMessage[] = [];
+    let response: Response = null;
 
     // Get the file
     const file = this.getFile(uri);
@@ -82,17 +79,14 @@ export class TextDocument_Hover extends AbstractHandler {
             break;
         }
 
-        responses.push({
-          jsonrpc: RPC_VER,
-          id: id,
-          result: {
-            contents: contents,
-          } as Hover,
-        });
+        response = {
+          contents: contents,
+        };
       }
     }
 
-    this.responses.enqueueElement(responses);
+    const message = this.generateResponseMessage(response);
+    this.queueResponseMessage(message);
   }
 
   /**
