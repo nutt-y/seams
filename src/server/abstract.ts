@@ -3,13 +3,15 @@ import type winston from "winston";
 import type GMLProject from "../parser/project.ts";
 import { RPC_VER } from "./constants.ts";
 import type { ElementQueue } from "./element_queue.ts";
-import type {
+import {
   DocumentUri,
+  ErrorCodes,
   Handler,
   LSPMessage,
   LSPNotificationMessage,
   LSPRequestMessage,
   LSPResponseMessage,
+  ResponseError,
 } from "./methods/message.types.ts";
 /**
  * Create an abstract handler this attributes that all handlers share.
@@ -115,6 +117,24 @@ export abstract class AbstractHandler implements Handler {
     message: LSPResponseMessage | LSPResponseMessage[],
   ): void {
     this.responses.enqueueElement(Array.isArray(message) ? message : [message]);
+  }
+
+  /**
+   * Generate an error with the following code and message, this can be returned to the client
+   * @param code The error code to generate
+   * @param message The message for the error
+   * @returns A `ResponseError` that can be sent back to a client
+   */
+  protected generateError(
+    code: keyof typeof ErrorCodes,
+    message: string,
+  ): ResponseError {
+    const error: ResponseError = {
+      code: ErrorCodes[code],
+      message: message,
+    };
+
+    return error;
   }
 }
 
