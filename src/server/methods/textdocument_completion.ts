@@ -1,12 +1,10 @@
 import type { Asset, Project, Signifier, Type } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import {
   type CompletionContext,
   type CompletionItem,
   CompletionItemKind,
   type CompletionList,
-  type LSPResponseMessage,
   type PartialResultParams,
   type TextDocumentPositionParams,
   type WorkDoneProgressParams,
@@ -39,7 +37,7 @@ export class TextDocument_Completion extends AbstractHandler {
    * Push the items that match the criteria
    */
   public override handle(): void {
-    const { params, id } = this.message;
+    const { params } = this.message;
     const { textDocument, position, context } = params as unknown as Params;
     const { uri } = textDocument;
     const { character: column, line } = position;
@@ -75,13 +73,8 @@ export class TextDocument_Completion extends AbstractHandler {
       }
     }
 
-    this.responses.enqueueElement([
-      {
-        id: id,
-        jsonrpc: RPC_VER,
-        result: response,
-      } as LSPResponseMessage,
-    ]);
+    const message = this.generateResponseMessage(response);
+    this.queueResponseMessage(message);
   }
 
   /**

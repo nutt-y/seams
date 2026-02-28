@@ -1,10 +1,10 @@
 import { AbstractHandler } from "../abstract.ts";
+import { TextDocument_PublishDiagnostics } from "../notifications/textdocument_publishdiagnostics.ts";
 import type {
   LSPRequestMessage,
   TextDocumentContentChangeEvent,
   VersionedTextDocumentIdentifier,
 } from "./message.types.ts";
-import { TextDocument_PublishDiagnostics } from "./textdocument_publishdiagnostics.ts";
 
 type Params = LSPRequestMessage["params"] & {
   /**
@@ -55,13 +55,13 @@ export class TextDocument_DidChange extends AbstractHandler {
         // Find diagnostics
         const diagnostics = new TextDocument_PublishDiagnostics(
           file,
+          version,
           this.logger,
           this.responses,
-          version,
         );
 
         // Check diagnostics
-        diagnostics.getDiagnostics();
+        diagnostics.handle();
       }
     }
   }

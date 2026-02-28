@@ -1,9 +1,9 @@
 import { AbstractHandler } from "../abstract.ts";
+import { TextDocument_PublishDiagnostics } from "../notifications/textdocument_publishdiagnostics.ts";
 import type {
   LSPRequestMessage,
   TextDocumentIdentifier,
 } from "./message.types.ts";
-import { TextDocument_PublishDiagnostics } from "./textdocument_publishdiagnostics.ts";
 
 /**
  * The parameters
@@ -42,12 +42,13 @@ export class TextDocument_DidSave extends AbstractHandler {
       // Find Diagnostics
       const diagnostics = new TextDocument_PublishDiagnostics(
         file,
+        undefined,
         this.logger,
         this.responses,
       );
 
       // Check diagnostics
-      diagnostics.getDiagnostics();
+      diagnostics.handle();
     }
   }
 }

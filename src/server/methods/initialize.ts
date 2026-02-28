@@ -1,5 +1,4 @@
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import { WindowWorkDoneProgress } from "../notifications/window_work_done_progress.ts";
 import {
   type ClientCapabilities,
@@ -81,7 +80,7 @@ export class Initialize extends AbstractHandler {
    * @param params The capabilities of the client
    */
   public override async handle(): Promise<void> {
-    const { id, params } = this.message;
+    const { params } = this.message;
 
     // Keep track of initializing the gml project
     const progress = new WindowWorkDoneProgress(
@@ -92,8 +91,8 @@ export class Initialize extends AbstractHandler {
     );
 
     // Build the initialize response
-    const initialResponse = this.getInitialResponse(id);
-    this.responses.enqueueElement([initialResponse]);
+    const initialResponse = this.getInitialResponse();
+    this.queueResponseMessage(initialResponse);
 
     // Cast to the parameters for an initialize class
     const { workspaceFolders } = params as InitializeParams;
@@ -172,20 +171,17 @@ export class Initialize extends AbstractHandler {
 
   /**
    * Get an initial response with the server capabilities and information
-   * @param id  The id of the request
    * @returns An initialize response
    */
-  private getInitialResponse(id: string | number): LSPResponseMessage {
+  private getInitialResponse(): LSPResponseMessage {
     const capabilities = this.getServerCapabilities();
     const info = this.getServerInformation();
 
-    return {
-      id: id,
-      jsonrpc: RPC_VER,
-      result: {
-        capabilities: capabilities,
-        serverInfo: info,
-      },
-    } as unknown as LSPResponseMessage;
+    const message = this.generateResponseMessage({
+      capabilities: capabilities,
+      serverInfo: info,
+    });
+
+    return message;
   }
 }

@@ -1,12 +1,15 @@
 import type { Code } from "@bscotch/gml-parser";
 import type winston from "winston";
 import type GMLProject from "../parser/project.ts";
+import { RPC_VER } from "./constants.ts";
 import type { ElementQueue } from "./element_queue.ts";
 import type {
   DocumentUri,
   Handler,
   LSPMessage,
+  LSPNotificationMessage,
   LSPRequestMessage,
+  LSPResponseMessage,
 } from "./methods/message.types.ts";
 /**
  * Create an abstract handler this attributes that all handlers share.
@@ -23,6 +26,9 @@ export abstract class AbstractHandler implements Handler {
 
   // The queue for the responses to send back to the client
   protected responses: ElementQueue<LSPMessage>;
+
+  // The message id passed down to the user
+  protected id: string | number;
 
   /**
    * Create a handler with all of the information passed from the client
@@ -41,6 +47,8 @@ export abstract class AbstractHandler implements Handler {
     this.logger = logger;
     this.project = project;
     this.responses = responses;
+
+    this.id = message.id;
   }
 
   /**
@@ -70,6 +78,36 @@ export abstract class AbstractHandler implements Handler {
     const file = this.project.getFile(path) ?? null;
 
     return file;
+  }
+
+  /**
+   * Generate a response message to send back to the client
+   * @param result The result for the lsp response message
+   * @param error The error for the lsp response message
+   * @returns The response message to send backt to the client
+   */
+  protected generateResponseMessage(
+    result: unknown | undefined = undefined,
+    error: LSPResponseMessage["error"] = undefined,
+  ): LSPResponseMessage {
+    const message: LSPResponseMessage = {
+      id: this.id,
+      jsonrpc: RPC_VER,
+      result: result as LSPResponseMessage["result"],
+      error: error,
+    };
+
+    return message;
+  }
+
+  /**
+   * Queue the respones message to be sent to the client
+   * @param message Queue up the response message back to the client
+   */
+  protected queueResponseMessage(
+    message: LSPResponseMessage | LSPResponseMessage[],
+  ): void {
+    this.responses.enqueueElement(Array.isArray(message) ? message : [message]);
   }
 }
 
@@ -110,4 +148,34 @@ export abstract class NotificationHandler implements Handler {
    * All children must implement this
    */
   public abstract handle(): Promise<void> | void;
+
+  /**
+   * Generate a notification message to send back to the client
+   * @param method The method type to generate the notification message for
+   * @param [params=undefined] The parameters to include in the notification message
+   */
+  protected generateNotificationMessage(
+    method: string,
+    params: unknown | undefined = undefined,
+  ): LSPNotificationMessage {
+    const notification: LSPNotificationMessage = {
+      jsonrpc: RPC_VER,
+      method: method,
+      params: params as LSPNotificationMessage["params"],
+    };
+
+    return notification;
+  }
+
+  /**
+   * Queue the notification to be sent back to the client
+   * @param notification Queue up the notification
+   */
+  protected queueNotification(
+    notification: LSPNotificationMessage | LSPNotificationMessage[],
+  ): void {
+    this.response.enqueueElement(
+      Array.isArray(notification) ? notification : [notification],
+    );
+  }
 }

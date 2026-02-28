@@ -1,11 +1,9 @@
 import type { Asset, Signifier, Type } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import { RPC_VER } from "../constants.ts";
 import type {
   Location,
   LocationLink,
   LSPRequestMessage,
-  LSPResponseMessage,
   PartialResultParams,
   TextDocumentPositionParams,
   WorkDoneProgressParams,
@@ -32,7 +30,7 @@ export class TextDocument_Definition extends AbstractHandler {
    * Return the diagnostic located in the file's position
    */
   public override handle(): void {
-    const { params, id } = this.message;
+    const { params } = this.message;
     const { textDocument, position } = params as Params;
     const { uri } = textDocument;
 
@@ -74,13 +72,8 @@ export class TextDocument_Definition extends AbstractHandler {
       }
     }
 
-    this.responses.enqueueElement([
-      {
-        jsonrpc: RPC_VER,
-        id: id,
-        result: location,
-      } as LSPResponseMessage,
-    ]);
+    const message = this.generateResponseMessage(location);
+    this.queueResponseMessage(message);
   }
 
   /**
@@ -160,18 +153,5 @@ export class TextDocument_Definition extends AbstractHandler {
     }
 
     return locations;
-  }
-
-  public _bruh() {
-    // if (symbol.native) { // builtin symbol
-    //           const builtin = this.project.getBuiltInSymbols();
-    //           // const token = builtin?.globalSelf.getMember(symbol.name);
-    //           const token = builtin?.globalSelf.getMember(symbol.name);
-    //
-    //           this.logger.info(
-    //             "Native Symbol: " + token?.name +
-    //               " Description: " + token?.description,
-    //           );
-    //         }
   }
 }
