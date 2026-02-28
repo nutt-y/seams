@@ -1,0 +1,436 @@
+[GML] 2026-01-24T15:27:45.350Z info: Started GML Lsp
+[GML] 2026-01-24T15:27:45.359Z info: Method: initialize
+Content: {
+  "method": "initialize",
+  "params": {
+    "rootUri": "file:///home/anonymous/Development/gml-lsp",
+    "rootPath": "/home/anonymous/Development/gml-lsp",
+    "clientInfo": {
+      "version": "0.11.5",
+      "name": "Neovim"
+    },
+    "processId": 15641,
+    "trace": "off",
+    "workDoneToken": "1",
+    "workspaceFolders": [
+      {
+        "uri": "file:///home/anonymous/Development/gml-lsp",
+        "name": "/home/anonymous/Development/gml-lsp"
+      }
+    ],
+    "capabilities": {
+      "textDocument": {
+        "rename": {
+          "dynamicRegistration": true,
+          "prepareSupport": true
+        },
+        "documentSymbol": {
+          "symbolKind": {
+            "valueSet": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26
+            ]
+          },
+          "dynamicRegistration": false,
+          "hierarchicalDocumentSymbolSupport": true
+        },
+        "formatting": {
+          "dynamicRegistration": true
+        },
+        "foldingRange": {
+          "dynamicRegistration": false,
+          "foldingRangeKind": {
+            "valueSet": [
+              "comment",
+              "imports",
+              "region"
+            ]
+          },
+          "foldingRange": {
+            "collapsedText": true
+          },
+          "lineFoldingOnly": true
+        },
+        "diagnostic": {
+          "dynamicRegistration": false,
+          "tagSupport": {
+            "valueSet": [
+              1,
+              2
+            ]
+          }
+        },
+        "codeLens": {
+          "resolveSupport": {
+            "properties": [
+              "command"
+            ]
+          },
+          "dynamicRegistration": false
+        },
+        "definition": {
+          "linkSupport": true,
+          "dynamicRegistration": true
+        },
+        "codeAction": {
+          "isPreferredSupport": true,
+          "dynamicRegistration": true,
+          "resolveSupport": {
+            "properties": [
+              "edit",
+              "command"
+            ]
+          },
+          "codeActionLiteralSupport": {
+            "codeActionKind": {
+              "valueSet": [
+                "",
+                "quickfix",
+                "refactor",
+                "refactor.extract",
+                "refactor.inline",
+                "refactor.rewrite",
+                "source",
+                "source.organizeImports"
+              ]
+            }
+          },
+          "dataSupport": true
+        },
+        "references": {
+          "dynamicRegistration": false
+        },
+        "typeDefinition": {
+          "linkSupport": true
+        },
+        "declaration": {
+          "linkSupport": true
+        },
+        "synchronization": {
+          "didSave": true,
+          "dynamicRegistration": false,
+          "willSaveWaitUntil": true,
+          "willSave": true
+        },
+        "hover": {
+          "dynamicRegistration": true,
+          "contentFormat": [
+            "markdown",
+            "plaintext"
+          ]
+        },
+        "completion": {
+          "completionItem": {
+            "commitCharactersSupport": false,
+            "snippetSupport": true,
+            "resolveSupport": {
+              "properties": [
+                "documentation",
+                "detail",
+                "additionalTextEdits",
+                "command",
+                "data"
+              ]
+            },
+            "insertTextModeSupport": {
+              "valueSet": [
+                1
+              ]
+            },
+            "labelDetailsSupport": true,
+            "insertReplaceSupport": true,
+            "documentationFormat": [
+              "markdown",
+              "plaintext"
+            ],
+            "tagSupport": {
+              "valueSet": [
+                1
+              ]
+            },
+            "deprecatedSupport": true,
+            "preselectSupport": false
+          },
+          "completionList": {
+            "itemDefaults": [
+              "commitCharacters",
+              "editRange",
+              "insertTextFormat",
+              "insertTextMode",
+              "data"
+            ]
+          },
+          "contextSupport": true,
+          "insertTextMode": 1,
+          "completionItemKind": {
+            "valueSet": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25
+            ]
+          },
+          "dynamicRegistration": false
+        },
+        "inlayHint": {
+          "resolveSupport": {
+            "properties": [
+              "textEdits",
+              "tooltip",
+              "location",
+              "command"
+            ]
+          },
+          "dynamicRegistration": true
+        },
+        "semanticTokens": {
+          "dynamicRegistration": false,
+          "serverCancelSupport": false,
+          "multilineTokenSupport": false,
+          "overlappingTokenSupport": true,
+          "augmentsSyntaxTokens": true,
+          "tokenTypes": [
+            "namespace",
+            "type",
+            "class",
+            "enum",
+            "interface",
+            "struct",
+            "typeParameter",
+            "parameter",
+            "variable",
+            "property",
+            "enumMember",
+            "event",
+            "function",
+            "method",
+            "macro",
+            "keyword",
+            "modifier",
+            "comment",
+            "string",
+            "number",
+            "regexp",
+            "operator",
+            "decorator"
+          ],
+          "requests": {
+            "range": false,
+            "full": {
+              "delta": true
+            }
+          },
+          "tokenModifiers": [
+            "declaration",
+            "definition",
+            "readonly",
+            "static",
+            "deprecated",
+            "abstract",
+            "async",
+            "modification",
+            "documentation",
+            "defaultLibrary"
+          ],
+          "formats": [
+            "relative"
+          ]
+        },
+        "rangeFormatting": {
+          "dynamicRegistration": true,
+          "rangesSupport": true
+        },
+        "implementation": {
+          "linkSupport": true
+        },
+        "documentHighlight": {
+          "dynamicRegistration": false
+        },
+        "signatureHelp": {
+          "signatureInformation": {
+            "activeParameterSupport": true,
+            "parameterInformation": {
+              "labelOffsetSupport": true
+            },
+            "documentationFormat": [
+              "markdown",
+              "plaintext"
+            ]
+          },
+          "dynamicRegistration": false
+        },
+        "callHierarchy": {
+          "dynamicRegistration": false
+        },
+        "publishDiagnostics": {
+          "dataSupport": true,
+          "tagSupport": {
+            "valueSet": [
+              1,
+              2
+            ]
+          },
+          "relatedInformation": true
+        }
+      },
+      "general": {
+        "positionEncodings": [
+          "utf-8",
+          "utf-16",
+          "utf-32"
+        ]
+      },
+      "workspace": {
+        "didChangeWatchedFiles": {
+          "relativePatternSupport": true,
+          "dynamicRegistration": false
+        },
+        "workspaceEdit": {
+          "resourceOperations": [
+            "rename",
+            "create",
+            "delete"
+          ]
+        },
+        "symbol": {
+          "dynamicRegistration": false,
+          "symbolKind": {
+            "valueSet": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26
+            ]
+          }
+        },
+        "semanticTokens": {
+          "refreshSupport": true
+        },
+        "inlayHint": {
+          "refreshSupport": true
+        },
+        "applyEdit": true,
+        "workspaceFolders": true,
+        "configuration": true,
+        "didChangeConfiguration": {
+          "dynamicRegistration": false
+        }
+      },
+      "window": {
+        "showDocument": {
+          "support": true
+        },
+        "workDoneProgress": true,
+        "showMessage": {
+          "messageActionItem": {
+            "additionalPropertiesSupport": true
+          }
+        }
+      }
+    }
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}
+[GML] 2026-01-24T15:27:45.360Z info: Path: /home/anonymous/Development/gml-lsp
+[GML] 2026-01-24T15:27:45.360Z info: Reply Sent: 
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "capabilities": {
+      "textDocumentSync": 1
+    },
+    "serverInfo": {
+      "name": "GameMaker Studio Language LSP",
+      "version": "0.1"
+    }
+  }
+}
+
+[GML] 2026-01-24T15:27:45.362Z info: Method: initialized
+Content: {
+  "method": "initialized",
+  "params": {},
+  "jsonrpc": "2.0"
+}
+[GML] 2026-01-24T15:27:45.362Z info: Method: textDocument/didOpen
+Content: {
+  "method": "textDocument/didOpen",
+  "params": {
+    "textDocument": {
+      "version": 0,
+      "text": "var hello = \"\"\n",
+      "uri": "file:///home/anonymous/Development/gml-lsp/tests/a/objects/foo/Create_0.gml",
+      "languageId": "gml"
+    }
+  },
+  "jsonrpc": "2.0"
+}
