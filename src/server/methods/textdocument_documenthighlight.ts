@@ -54,13 +54,8 @@ export class TextDocument_DocumentHighlight extends AbstractHandler {
     }
 
     // Enqueue the final part
-    this.responses.enqueueElement([
-      {
-        jsonrpc: RPC_VER,
-        id: id,
-        result: response,
-      } as LSPResponseMessage,
-    ]);
+    const message = this.generateResponseMessage(response);
+    this.queueResponseMessage(message);
   }
 
   /**
