@@ -1,12 +1,13 @@
 import type { Reference } from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
-import type {
-  InlayHint,
-  LSPRequestMessage,
-  Position,
-  Range,
-  TextDocumentIdentifier,
-  WorkDoneProgressParams,
+import {
+  type InlayHint,
+  InlayHintKind,
+  type LSPRequestMessage,
+  type Position,
+  type Range,
+  type TextDocumentIdentifier,
+  type WorkDoneProgressParams,
 } from "./message.types.ts";
 
 type Params = LSPRequestMessage["params"] &
@@ -78,6 +79,7 @@ export class TextDocument_InlayHint extends AbstractHandler {
     const referencesInRange = references.filter((ref) => {
       const refStart = ref.start;
       const refEnd = ref.end;
+      const isDef = ref.isDef;
 
       const inStartRange =
         refStart.line > start.line ||
@@ -86,7 +88,7 @@ export class TextDocument_InlayHint extends AbstractHandler {
         refEnd.line < end.line ||
         (refEnd.line === end.line && refEnd.column < end.character);
 
-      return inStartRange && inEndRange;
+      return isDef && inStartRange && inEndRange;
     });
 
     return referencesInRange;
@@ -101,6 +103,7 @@ export class TextDocument_InlayHint extends AbstractHandler {
     const hints: InlayHint[] = references.map((ref) => {
       const end = ref.end;
       const type = ref.item.type.toFeatherString();
+      const parameter = ref.item.parameter;
 
       return {
         label: `: ${type}`,
@@ -110,6 +113,7 @@ export class TextDocument_InlayHint extends AbstractHandler {
         },
         paddingLeft: true,
         paddingRight: true,
+        kind: parameter ? InlayHintKind.PARAMETER : InlayHintKind.TYPE,
       };
     });
 
