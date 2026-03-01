@@ -1,5 +1,5 @@
 import {
-  type Asset,
+  // type Asset,
   objectEvents as GMEvents,
   type Reference,
   type Signifier,
@@ -48,7 +48,7 @@ export class TextDocument_CodeAction extends AbstractHandler {
   public override handle(): Promise<void> | void {
     const { params } = this.message;
     const { textDocument, range } = params as unknown as Params;
-    const { end, start } = range;
+    const { start } = range;
     const { uri } = textDocument;
 
     const file = this.getFile(uri);

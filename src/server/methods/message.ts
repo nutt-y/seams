@@ -11,6 +11,7 @@ import type {
   LSPRequestMessage,
 } from "./message.types.ts";
 import { Nothing } from "./nothing.ts";
+import { TextDocument_CodeAction } from "./textdocument_codeaction.ts";
 import { TextDocument_Completion } from "./textdocument_completion.ts";
 import { TextDocument_Definition } from "./textdocument_definition.ts";
 import { TextDocument_DidChange } from "./textdocument_didchange.ts";
@@ -23,7 +24,6 @@ import { TextDocument_References } from "./textdocument_references.ts";
 import { TextDocument_SemanticTokens_Full } from "./textdocument_semanticTokens_full.ts";
 import { TextDocument_SignatureHelp } from "./textdocument_signaturehelp.ts";
 import { Workspace_ExecuteCommand } from "./workspace_executecommand.ts";
-import { TextDocument_CodeAction } from "./textdocument_codeaction.ts";
 
 /**
  * The methods supported by gml lsp
