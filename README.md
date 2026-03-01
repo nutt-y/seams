@@ -1,5 +1,6 @@
 # Seams 🪡
 
+![Demo](./demo.gif)
 A GameMaker Studio language server made in Typescript, utilizing [Butterscotch Shenanigan's gml-parser](https://github.com/bscotch/stitch/tree/develop/packages/parser) for parsing a GML project.
 
 > [!NOTE]
