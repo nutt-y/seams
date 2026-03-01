@@ -13,6 +13,7 @@ import type {
   TextDocumentIdentifier,
   WorkDoneProgressParams,
 } from "./message.types.ts";
+import { WorkspaceCommands } from "./workspace_executecommand.ts";
 
 /**
  * Request parameters
@@ -52,6 +53,9 @@ export class TextDocument_CodeAction extends AbstractHandler {
 
     const file = this.getFile(uri);
 
+    // code actions to send
+    let actions: Response = null;
+
     // Check the position of the cursor
     if (file) {
       const refUnderCursor = file.getReferenceAt(
@@ -61,9 +65,12 @@ export class TextDocument_CodeAction extends AbstractHandler {
 
       // Add references code actions
       if (refUnderCursor) {
-        this.getReferenceCodeActions(refUnderCursor);
+        actions = this.getReferenceCodeActions(refUnderCursor);
       }
     }
+
+    const message = this.generateResponseMessage({ result: actions });
+    this.queueResponseMessage(message);
   }
 
   /**
@@ -93,16 +100,22 @@ export class TextDocument_CodeAction extends AbstractHandler {
   private getGMObjectCodeActions(symbol: Signifier): CodeAction[] {
     const item = symbol.getTypeByKind("Asset.GMObject");
 
-    // Get all assets for the object
+    // Get the name of the asset
     const name = item?.name ?? "";
 
-    // const obj = this.project.getAssets<Asset<"objects">>(name);
-    //
-    // if(obj){
-    //   const
-    // await obj.createEvent()
-    // }
+    // List all events
+    const events = Object.values(GMEvents).map((e) => e.label);
 
-    return [];
+    // Get the actions for that object
+    const actions: CodeAction[] = events.map((event) => ({
+      title: `Create ${event} event for ${name} Object`,
+      command: {
+        title: "create event",
+        command: WorkspaceCommands.NEW_EVENT,
+        arguments: [name, event],
+      },
+    }));
+
+    return actions;
   }
 }
