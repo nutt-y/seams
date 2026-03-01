@@ -1,3 +1,9 @@
+import {
+  type Asset,
+  objectEvents as GMEvents,
+  type Reference,
+  type Signifier,
+} from "@bscotch/gml-parser";
 import { AbstractHandler } from "../abstract.ts";
 import type {
   CodeAction,
@@ -48,8 +54,55 @@ export class TextDocument_CodeAction extends AbstractHandler {
 
     // Check the position of the cursor
     if (file) {
+      const refUnderCursor = file.getReferenceAt(
+        start.line + 1,
+        start.character + 1,
+      );
+
+      // Add references code actions
+      if (refUnderCursor) {
+        this.getReferenceCodeActions(refUnderCursor);
+      }
     }
   }
 
-  private getCursorReference(): void {}
+  /**
+   * Get the code actions for a reference
+   * @param reference The reference to get the code actions for
+   */
+  private getReferenceCodeActions(reference: Reference): CodeAction[] {
+    let actions: CodeAction[] = [];
+
+    const item = reference.item;
+    const kind = item.type.kind;
+
+    switch (kind) {
+      case "Asset.GMObject":
+        actions = this.getGMObjectCodeActions(item);
+        break;
+    }
+
+    return actions;
+  }
+
+  /**
+   * Code actions for gm objects include creating/deleting events
+   * @param symbol The gm object
+   * @returns An array of code actions that can be done with a gm object
+   */
+  private getGMObjectCodeActions(symbol: Signifier): CodeAction[] {
+    const item = symbol.getTypeByKind("Asset.GMObject");
+
+    // Get all assets for the object
+    const name = item?.name ?? "";
+
+    // const obj = this.project.getAssets<Asset<"objects">>(name);
+    //
+    // if(obj){
+    //   const
+    // await obj.createEvent()
+    // }
+
+    return [];
+  }
 }
