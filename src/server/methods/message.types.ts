@@ -782,6 +782,21 @@ export interface ServerCapabilities {
    * LSP has document highlight functionality
    */
   documentHighlightProvider: boolean;
+
+  /**
+   * Provides code action capabilities
+   */
+  codeActionProvider: boolean;
+
+  /**
+   * Execute command provider
+   */
+  executeCommandProvider: {
+    /**
+     * The commands to be executed on the server
+     */
+    commands: string[];
+  };
 }
 
 /**
@@ -1468,6 +1483,89 @@ export enum InsertTextFormat {
    * that is typing in one will update others too.
    */
   SNIPPET = 2,
+}
+
+/**
+ * Contains additional diagnostic information about the
+ * context in which a code action is run.
+ */
+export interface CodeActionContext {
+  /* An array of diagnostics known on the client side overlapping the range
+   * provided to the `textDocument/codeAction` request. They are provided so
+   * that the server knows which errors are currently presented to the user
+   * for the given range. There is no guarantee that these accurately reflect
+   * the error state of the resource. The primary parameter
+   * to compute code actions is the provided range.
+   */
+  diagnostics: Diagnostic[];
+}
+
+export interface TextEdit {
+  /**
+   * The range of the text document to be manipulated. To insert
+   * the text into a document create a range where start == end
+   */
+  range: Range;
+
+  /**
+   * The string to be inserted. For delete operations use an empty string
+   */
+  newText: string;
+}
+
+/**
+ * An edit to a file
+ */
+export interface WorkspaceEdit {
+  /**
+   * Holds changes to existing resources
+   */
+  changes?: { [uri: DocumentUri]: TextEdit[] };
+}
+
+/**
+ * Comamnds that are provided by the server
+ */
+export interface Command {
+  /**
+   * Title of the command, like `save`
+   */
+  title: string;
+
+  /**
+   * The identifier of the actual command handler
+   */
+  command: string;
+
+  /**
+   * Arguments that the command handler should be invoked with
+   */
+  arguments?: LSPAny[];
+}
+
+/**
+ * A code action represents a change that can be performed in code, e.g. to fix
+ * a problem or to refactor code.
+ *
+ * A CodeAction must set either `edit` and/or a `command`. If both are supplied the
+ * `edit` is applied first, then the `command` is executed
+ */
+export interface CodeAction {
+  /**
+   * A short, human-readable, title for this code action.
+   */
+  title: string;
+
+  /**
+   * A command this code action executes. if a code action
+   * provides an edit and a command, first the edit is executed and then the command
+   */
+  command?: Command;
+
+  /**
+   * The workspace edit this code action performs
+   */
+  edit?: WorkspaceEdit;
 }
 
 /**

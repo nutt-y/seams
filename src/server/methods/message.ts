@@ -11,6 +11,7 @@ import type {
   LSPRequestMessage,
 } from "./message.types.ts";
 import { Nothing } from "./nothing.ts";
+import { TextDocument_CodeAction } from "./textdocument_codeaction.ts";
 import { TextDocument_Completion } from "./textdocument_completion.ts";
 import { TextDocument_Definition } from "./textdocument_definition.ts";
 import { TextDocument_DidChange } from "./textdocument_didchange.ts";
@@ -22,6 +23,7 @@ import { TextDocument_InlayHint } from "./textdocument_inlayHint.ts";
 import { TextDocument_References } from "./textdocument_references.ts";
 import { TextDocument_SemanticTokens_Full } from "./textdocument_semanticTokens_full.ts";
 import { TextDocument_SignatureHelp } from "./textdocument_signaturehelp.ts";
+import { Workspace_ExecuteCommand } from "./workspace_executecommand.ts";
 
 /**
  * The methods supported by gml lsp
@@ -42,6 +44,8 @@ enum Methods {
   TEXTDOCUMENT_INLAYHINT = "textDocument/inlayHint",
   TEXTDOCUMENT_SEMANTICTOKENS_FULL = "textDocument/semanticTokens/full",
   TEXTDOCUMENT_HIGHLIGHTS = "textDocument/documentHighlight",
+  TEXTDOCUMENT_CODEACTION = "textDocument/codeAction",
+  WORKSPACE_EXECUTE_COMMAND = "workspace/executeCommand",
   EXIT = "exit",
   NOTHING = "nothing",
 }
@@ -68,6 +72,8 @@ const HANDLERS: {
   [Methods.TEXTDOCUMENT_INLAYHINT]: TextDocument_InlayHint,
   [Methods.TEXTDOCUMENT_SEMANTICTOKENS_FULL]: TextDocument_SemanticTokens_Full,
   [Methods.TEXTDOCUMENT_HIGHLIGHTS]: TextDocument_DocumentHighlight,
+  [Methods.TEXTDOCUMENT_CODEACTION]: TextDocument_CodeAction,
+  [Methods.WORKSPACE_EXECUTE_COMMAND]: Workspace_ExecuteCommand,
   [Methods.EXIT]: Exit,
   [Methods.NOTHING]: Nothing,
 };
