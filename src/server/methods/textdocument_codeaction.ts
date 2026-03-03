@@ -108,7 +108,7 @@ export class TextDocument_CodeAction extends AbstractHandler {
 
     // Get the actions for that object
     const actions: CodeAction[] = events.map((event) => ({
-      title: `Create ${event} event for ${name} Object`,
+      title: `Create ${event} event for ${name}`,
       command: {
         title: "create event",
         command: WorkspaceCommands.NEW_EVENT,

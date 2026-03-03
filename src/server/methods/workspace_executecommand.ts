@@ -1,19 +1,23 @@
 import { AbstractHandler } from "../abstract.ts";
+import { WorkspaceCommands } from "../commands/abstract.ts";
+import type { LSPAny, WorkDoneProgressParams } from "./message.types.ts";
+
+type Params = WorkDoneProgressParams & {
+  /**
+   * The identifier of the actual command handler
+   */
+  command: string;
+
+  /**
+   * Argumnets that the command should be invoked with
+   */
+  args?: LSPAny[];
+};
 
 /**
- * Workspace Commands
+ * The response can be anything
  */
-export enum WorkspaceCommands {
-  /**
-   * Create a new event for an object
-   */
-  NEW_EVENT = "new_event",
-
-  /**
-   * Delete an event for an object
-   */
-  DELETE_EVENT = "delete_event",
-}
+type Response = unknown;
 
 /**
  * @class Execute custom commands
@@ -61,7 +65,17 @@ export class Workspace_ExecuteCommand extends AbstractHandler {
     return key;
   }
 
+  /**
+   * Handle the commands that the client wants to run
+   */
   public override handle(): Promise<void> | void {
-    throw new Error("Method not implemented.");
+    const { params } = this.message;
+    const { command, args } = params as unknown as Params;
   }
+
+  /**
+   * Get the command enum type give, the enum value as a string
+   * @param command The command that is being used
+   */
+  protected getCommandType(command: string): WorkspaceCommands {}
 }
