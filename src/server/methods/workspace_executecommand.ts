@@ -1,5 +1,9 @@
 import { AbstractHandler } from "../abstract.ts";
-import { WorkspaceCommands } from "../commands/abstract.ts";
+import {
+  type CommandHandler,
+  WorkspaceCommands,
+} from "../commands/abstract.ts";
+import { CreateEvent } from "../commands/create_event.ts";
 import type { LSPAny, WorkDoneProgressParams } from "./message.types.ts";
 
 type Params = WorkDoneProgressParams & {
@@ -23,6 +27,16 @@ type Response = unknown;
  * @class Execute custom commands
  */
 export class Workspace_ExecuteCommand extends AbstractHandler {
+  // The handlers for each command handler that we have access to
+  private static HANDLERS: {
+    [T in WorkspaceCommands]: new (
+      ...input: ConstructorParameters<typeof CommandHandler>
+    ) => CommandHandler;
+  } = {
+    [WorkspaceCommands.NEW_EVENT]: CreateEvent,
+    [WorkspaceCommands.DELETE_EVENT]: {} as any,
+  };
+
   /**
    * Get custom workspace command names
    * @returns The commands that is available in lsp
@@ -68,14 +82,25 @@ export class Workspace_ExecuteCommand extends AbstractHandler {
   /**
    * Handle the commands that the client wants to run
    */
-  public override handle(): Promise<void> | void {
+  public override async handle(): Promise<void> {
     const { params } = this.message;
     const { command, args } = params as unknown as Params;
+    const key = this.getCommandType(command);
+
+    const handlerClass = Workspace_ExecuteCommand.HANDLERS[key];
+    const handler = new handlerClass(key, args, this.project, this.logger);
+
+    // Get the result from running the command
+    const result = await handler.run();
   }
 
   /**
    * Get the command enum type give, the enum value as a string
    * @param command The command that is being used
    */
-  protected getCommandType(command: string): WorkspaceCommands {}
+  protected getCommandType(command: string): WorkspaceCommands {
+    const key = WorkspaceCommands[command as keyof typeof WorkspaceCommands];
+
+    return key ?? WorkspaceCommands.NEW_EVENT;
+  }
 }
